@@ -1,0 +1,92 @@
+<template>
+    <div class="page page-home">
+        <div class="navbar no-shadow" style="color: white; height: 55px;">
+            <div class="navbar-bg" style="background: url('img/header.png') fixed;"></div>
+            <div class="navbar-inner">
+                <div class="title sliding">Data API Public</div>
+                <div class="right">
+                    <a href="#" class="link sheet-open" style="color: white;" data-toggle="modal" data-sheet="#form-filter" >
+                        <i class="icon f7-icons">search</i>
+                    </a>
+                    <a href="#" class="link back" style="color: white;">
+                        <i class="icon f7-icons">xmark</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div style="background: url('img/above.png'); margin-top: 54px; height: 3798px;"></div>
+        <div class="page-content" style="margin-top: -3850px;">
+            <div class="row" style="margin: 0px 15px 10px 15px;" id="blokdataapi"></div>
+            <br/><br/><br/>
+        </div>
+        <div class="sheet-modal demo-sheet-swipe-to-close" style="height: auto;" id="form-filter">
+            <div class="sheet-modal-inner">
+                <div class="swipe-handler"></div>
+                <div class="page-content">
+                    <div class="block-title block-title-large">Form Pencarian</div>
+                    <div class="list">
+                       <div class="item-content item-input">
+                           <div class="col-15">
+                               <div class="item-media">
+                                   <i class="icon f7-icons">calendar</i>
+                               </div>
+                           </div>
+                           <div class="item-inner">
+                               <div class="item-title item-label">Tahun*</div>
+                               <div class="item-input-wrap">
+                                   <input type="number" id="txtth" maxlength="4"/>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="item-content item-input">
+                            <div class="col-15">
+                                <div class="item-media">
+                                    <i class="icon f7-icons">calendar</i>
+                                </div>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title item-label">Bulan*</div>
+                                <div class="item-input-wrap">
+                                    <select id="cbobln">
+                                        <option value="1">Januari</option>
+                                        <option value="2">Februari</option>
+                                        <option value="3">Maret</option>
+                                        <option value="4">April</option>
+                                        <option value="5">Mei</option>
+                                        <option value="6">Juni</option>
+                                        <option value="7">Juli</option>
+                                        <option value="8">Agustus</option>
+                                        <option value="9">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <option value="12">Desember</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                    <div class="item-content item-input">
+                        <div class="col-15">
+                            <div class="row" style="margin: 0px 10px 15px 10px;">
+                                <button type="button" class="col button button-fill color-green" @click="${() => apipublic()}">Cari</button>
+                                <button type="button" class="col button button-fill color-red" @click="${kosongform}">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default function (props, ctx) {
+        function kosongform()
+        {
+            $("#txtth").val("");
+            $("#cbobln").val("");
+            $("#blokdataapi").html("1");
+        }
+        return $render;
+    }
+</script>

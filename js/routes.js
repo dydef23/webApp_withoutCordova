@@ -7,6 +7,8 @@ var routes = [
   {path: '/dlokal/', componentUrl: 'pages/datalokal.html'},
   {path: '/addlokal/', componentUrl: 'pages/tambahdata.html'},
   {path: '/manlokal/', componentUrl: 'pages/keloladata.html'},
+  {path: '/apipbl/', componentUrl: 'pages/apipublic.html'},
+  {path: '/apipvt/', componentUrl: 'pages/apiprivate.html'},
   {path: '(.*)', url: 'pages/404.html',}
 
 ];

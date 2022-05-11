@@ -25,7 +25,7 @@
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="https://drive.crazycoding.my.id/datajs/film.js"></script>
     <script src="https://drive.crazycoding.my.id/datajs/modul.js"></script>
-    <script src="cordova.js"></script>
+    <!-- <script src="cordova.js"></script> -->
     <script>
         function ambildatafilm(){
             let hasil = "";
@@ -269,6 +269,80 @@
                     });
                 }    
             )
+        }
+
+        function apipublic(){
+            let th = $("#txtth").val();
+            let bln = $("#cbobln").val();
+            if (th == "" || bln == ""){
+                app.dialog.alert("Isian Pencarian Harus Lengkap", "Cari Gagal");
+                return;
+            }
+
+            app.dialog.preloader("Akses Data ...");
+            $.getJSON("https://dyss.000webhostapp.com/coba-api/api2.php?data=penjualan&tahun=" + th + "&bulan=" + bln, function(result){
+                app.dialog.close();
+                if(result.length != 0){
+                    let dt = "";
+                    let tmbh = "";
+                    $.each(result, function(i, kolom){
+                        let tgl = kolom.orderDate;
+                        let x = tgl.split("-");
+                        let file = x[2] + ".jpg";
+                        dt += '<a href="javascript:void(0)" class="col-25 text-align-center" style="margin-bottom: 10px"><img src="img/'+ file + '" class="besar-icon radius10"/></a>';
+                    })
+                    if(result.length % 4 == 1){
+                        tmbh += '<a href="javascript:void(0)" class="col-25 text-align-center"></a><a href="javascript:void(0)" class="col-25 text-align-center"></a><a href="javascript:void(0)" class="col-25 text-align-center"></a>';
+                    }else if (result.length % 4 == 2){
+                        tmbh += '<a href="javascript:void(0)" class="col-25 text-align-center"></a><a href="javascript:void(0)" class="col-25 text-align-center"></a>';
+                    }else if (result.length % 4 == 3){
+                        tmbh += '<a href="javascript:void(0)" class="col-25 text-align-center"></a>';
+                    }else{
+                        tmbh += "";
+                    }
+                    $("#blokdataapi").html(dt + tmbh);
+                }else{
+                    app.dialog.alert("Data Tidak Ditemukan", "Kosong");
+                    $("#blokdataapi").html("");
+                }
+            })
+        }
+
+        function apiprivate(){
+            app.dialog.preloader("Akses Data...");
+            $.ajax({
+                url : "https://dyss.000webhostapp.com/coba-api/api3.php",
+                method: "POST",
+                cache: "false",
+                success: function(y){
+                    app.dialog.close();
+                    var x = atob(y);
+                    var dtbesar = x.split("##");
+                    if(dtbesar.length != 0){
+                        $("#blokdataapi").html("");
+                        for (z in dtbesar){
+                            let dtkecil = dtbesar[z];
+                            let dt = dtkecil.split("|");
+                            let idkaryawan = dt[0];
+                            let namadepan = dt[1];
+                            let namabelakang = dt[2];
+                            let email = dt[3];
+                            let nama = namadepan+ " "+ namabelakang;
+                            $("#blokdataapi").append('<div class="card card-outline" style="margin: 0px 10px 10px 10px; border-radius: 15px;"><div class="card-content card-content-padding"><div class="row mb-10"><div class="col-20" style="font-size: 25px; text-align: center;"><img src="img/user.png" style="margin-bottom: 0px; display: block; margin-left: auto; margin-right: auto; text-align: center; width: 100%;"></div><div class="col-80" style="font-size: 17px;"></b>'+ nama + '</b><br>'+ email + '</div></div></div></div>');
+                        }
+                        $("#blokdataapi").append("<br><br><br>");
+                    }
+                    else {
+                        app.dialog.close();
+                        app.dialog.alert("Data Tidak Di Temukan", "Kosong");
+                        $("#blokdataapi").html("");
+                    }
+                },
+                error : function(){
+                    app.dialog.alert("API Tidak Terhubung", "Gagal");
+                    $("#blokdataapi").html("");
+                }
+            })
         }
     </script>
 </body>
