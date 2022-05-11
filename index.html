@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#fff">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
+    <title>Praktek 6</title>
+    <link rel="stylesheet" href="core/framework7-bundle.min.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/custom.css">
+    
+</head>
+<body>
+    <div id="app">
+        <div class="view view-main view-init safe-areas" data-master-detail-breakpoint="768" data-url="/"></div>
+    </div>
+    <script src="core/framework7-bundle.min.js"></script>
+    <script src="js/routes.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="https://drive.crazycoding.my.id/datajs/film.js"></script>
+    <script src="https://drive.crazycoding.my.id/datajs/modul.js"></script>
+    <script src="cordova.js"></script>
+    <script>
+        function ambildatafilm(){
+            let hasil = "";
+            let x;
+            for (x in datafilm){
+                jd = datafilm[x].judul;
+                pm = datafilm[x].pemain;
+                th = datafilm[x].tahun;
+                rt = datafilm[x].rating;
+                cv = datafilm[x].cover;
+                sn = datafilm[x].sinopsis;
+                hasil += "<a href='#' data-jd='"+ jd +" data-pm='"+ pm +" data-th='"+ th +" data-rt='"+ rt +" data-cv='"+ cv +" data-sn='"+ sn +" onclick='detailfilm(this)' class='col-50 text-align-center' style='margin-bottom: 5px;'><img src='"+ cv + "' alt='.' class='besar-icon radius10'></a>";
+            }
+            $("#blokdatafilm").html(hasil);
+        }
+        function detailfilm(el){
+            let jd = $(el).data("jd");
+            let pm = $(el).data("pm");
+            let th = $(el).data("th");
+            let rt = $(el).data("rt");
+            let sn = $(el).data("sn");
+            app.views.main.router.navigate("/dfilm/?jd"+ jd +"&pm="+ pm + "&th="+ th +"&rt="+ rt + "&sn="+ sn);
+        }
+
+        function ambildatamodul(){
+            let hasil = "";
+            let x;
+            let lokasi = "https://drive.crazycoding.my.id/datajs/modul/img/";
+            for(x in datamodul){
+                dt = datamodul[x];
+                aa = atob(dt);
+                bb = aa.split("|");
+                hasil += "<a href='#' class='col-100 text-align-center' style='margin-bottom: 5px;'><img src='"+ lokasi + bb[0] + ".jpg' alt='.' class='besar-icon radius10'></a>";
+            }
+            $("#blokdatamodul").html(hasil);
+        }
+
+        function senterku(){
+            window.plugins.flashlight.available(function(isAvailable){
+                if(isAvailable){
+                    if(window.plugins.flashlight.isSwitchedOn()){
+                        window.plugins.flashlight.switchOff();
+                    }else{
+                        window.plugins.flashlight.switchOn();
+                    }
+                }else{
+                    app.dialog.alert("LED Tidak Ada", "Error");
+                }
+            });
+        }
+
+        function scannerku(){
+            cordova.plugins.barcodeScanner.scan(
+                function (result){
+                    if(result.text != ""){
+                        app.dialog.alert(result.text, "Hasil")
+                    }
+                },
+                function(error){
+                    app.dialog.alert(error, "Gagal");
+                },
+                {
+                    preferFrontCamera : false,
+                    showFlipCameraButton : true, 
+                    showTorchButton : false,
+                    torchOn : false,
+                    saveHistory : false,
+                    prompt : "Tempatkan Kode di Dalam Kotak Yang Disediakan",
+                    resultDisplayDuration : 500, 
+                    formats : "all",
+                    orientation : "portrait", 
+                    disableSuccessBeep: false
+                }
+            );
+        }
+
+        function loginku(){
+            Fingerprint.isAvailable(fingerTersedia, fingerTidakTersedia);
+        }
+
+        function fingerTersedia(result){
+            Fingerprint.show(
+                {
+                    description: "Silahkan Tempel Sidik Jari Anda"
+                } ,
+                function(){
+                    app.dialog.alert("Fingerprint Terdeteksi Autentikasi Sukses", "Berhasil");
+                },
+                function(){
+                    app.dialog.alert("Fingerprint Tidak Terdeteksi", "Gagal");
+                }
+            );
+
+        }
+
+        function fingerTidakTersedia(error){
+            app.dialog.alert("Perangkat Anda Tidak Memiliki Fingerprint", "Gagal");
+        }
+
+        konfigurasidb();
+        function konfigurasidb(){
+            db = openDatabase("tempdb", "1.0", "Database Praktikum", 5*1024*1024);
+            db.transaction(function(tx){
+                tx.executeSql("CREATE TABLE IF NOT EXISTS mahasiswa (nim CHAR(10), nama TEXT, jenis_kelamin TEXT, email TEXT, PRIMARY KEY (nim))");
+            });
+        }
+
+        function setnilai(obyek, nilai){
+            $(obyek).val(nilai);
+        }
+
+        function tambah_mahasiswa(){
+            let nim = $("#txtnim").val();
+            let nama = $("#txtnama").val();
+            let jenis_kelamin = $("#txtjk").val();
+            let email = $("#txtemail").val();
+            if(nim == "" || nama == "" || jenis_kelamin == "" || email == ""){
+                app.dialog.alert("Ada Isian Yang Masih Kosong !", "Error");
+                return;
+            }
+            db.transaction(function(tx){
+                tx.executeSql("INSERT INTO mahasiswa VALUES(?,?,?,?)", [nim, nama, jenis_kelamin, email],
+                    function(tx){
+                        app.dialog.alert("Data Mahasiswa Berhasil Di Tambahkan", 
+                        "Berhasil");
+                        kosong_mahasiswa();
+                    },
+                    function(){
+                        app.dialog.alert("Data Mahasiswa Gagal Di Tambahkan, Cek Isian Anda", "Gagal")
+                    }
+                );
+            });
+        }
+
+        function kosong_mahasiswa(){
+            $("#txtnim").val("");
+            $("#txtnama").val("");
+            $("#txtjk").val("");
+            $("#txtemail").val("");
+        }
+
+        function ambildatamahasiswa(){
+            db.transaction(function(tx){
+                tx.executeSql("SELECT * FROM mahasiswa", [], 
+                    function(tx, results){
+                        jmldata = results.rows.length;
+                        if(jmldata > 0){
+                            let hasil = "";
+                            for (i = 0; i < jmldata; i++){
+                                let nim = results.rows.item(i).nim;
+                                let nama = results.rows.item(i).nama;
+                                let jk = results.rows.item(i).jenis_kelamin;
+                                let email = results.rows.item(i).email;
+                                hasil += '<div class="card card-outline" data-nim="'+ nim +'" onclick="kelolamahasiswa(this)" style="margin-left: 10px; margin-right: 10px; margin-bottom: 10px; border-radius: 15px;"><div class="card-content card-content-padding"><div class="row mb-10"><div class="col-20" style="font-size: 25px; text-align: center;"><img src="img/user.png" style="margin-bottom: 0px; display: block; margin-left: auto; margin-right: auto; text-align: center; width: 100%"></div><div class="col-80" style="font-size: 17px;"><b>'+ nama+'</b><br>'+email+'</div></div></div></div>';
+                            }
+                            $("#blokdatamahasiswa").html(hasil+"<br><br><br>");
+                        }else {
+                            app.dialog.alert("Data Mahasiswa Tidak Ditemukan", "Kosong");
+                        }
+                    },
+                    function(){
+                        app.dialog.alert("SQL Gagal Dijalankan, Cek SQL-nya", "Error");
+                    }
+                ) 
+            }); 
+        }
+
+        function kelolamahasiswa(el){
+            let nim = $(el).data("nim");
+            if(nim == ""){
+                app.dialog.alert("NIM Mahasiswa Tidak Terdeteksi", "Error");
+                return;
+            }
+            db.transaction(function(tx){
+                tx.executeSql("SELECT * FROM mahasiswa WHERE nim = '"+ nim +"'", [],
+                    function(tx, results){
+                        jmldata = results.rows.length;
+                        if(jmldata > 0){
+                            for(i = 0; i < jmldata; i++){
+                                let nim = results.rows.item(i).nim;
+                                let nama = results.rows.item(i).nama;
+                                let jk = results.rows.item(i).jenis_kelamin;
+                                let email = results.rows.item(i).email;
+                                sessionStorage.setItem("nim_filter", nim);
+                                sessionStorage.setItem("nama_filter", nama);
+                                sessionStorage.setItem("jk_filter", jk);
+                                sessionStorage.setItem("email_filter", email);
+                            }
+                            app.views.main.router.navigate("/manlokal/");
+                        }else { 
+                            app.dialog.alert("Data Mahasiswa Tidak Ditemukan", "Kosong");
+                        }
+                    },
+                    function(){
+                        app.dialog.alert("SQL Gagal Dijalankan, Cek SQL-nya", "Error");
+                    }
+                )
+            });
+        }
+
+        function update_mahasiswa(){
+            let nim = $("#txtnime").html();
+            let nama = $("#txtnamae").val();
+            let jenis_kelamin = $("#txtjke").val();
+            let email = $("#txtemaile").val();
+            if(nim == "" || nama == "" || jenis_kelamin == "" || email == ""){
+                app.dialog.alert("Ada Isian Yang Masih Kosong !", "Error");
+                return;
+            }
+            db.transaction(function(tx){
+                tx.executeSql("UPDATE mahasiswa SET nama=?, jenis_kelamin=?, email=? WHERE nim=?", [nama, jenis_kelamin, email, nim],
+                    function(tx){
+                        app.dialog.alert("Data Mahasiswa Berhasil Di Update", "berhasil");
+                        app.views.main.router.back();
+                    },
+                    function(){
+                        app.dialog.alert("Data Mahasiswa Gagal Di Update, Cek Isian Anda", "Gagal");
+                    }
+                );
+            });
+        }
+
+        function delete_mahasiswa(){
+            let nim = $("txtnime").html();
+            if(nim == ""){
+                app.dialog.alert("NIM Tidak Terdeteksi !", "Error");
+                return;
+            }
+            app.dialog.confirm("Anda Yakin Ingin Dihapus ?", "Konfirmasi", 
+                function(){
+                    db.transaction(function(tx){
+                        tx.executeSql("DELETE FROM mahasiswa WHERE nim=?", [nim],
+                            function(tx){
+                                app.dialog.alert("Data Mahasiswa Berhasil Di Hapus", "berhasil");
+                                app.views.main.router.back();
+                            },
+                            function(){
+                                app.dialog.alert("Data Mahasiswa Gagal Di Hapus, Cek Data-nya", "Gagal");
+                            }
+                        );
+                    });
+                }    
+            )
+        }
+    </script>
+</body>
+</html>

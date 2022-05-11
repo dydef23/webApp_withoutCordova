@@ -1,0 +1,111 @@
+<template>
+    <div class="page page-home">
+        <div class="navbar no-shadow" style="color: white; height: 55px;">
+            <div class="navbar-bg" style="background: url('img/header.png') fixed;"></div>
+            <div class="navbar-inner">
+                <div class="title sliding">Tambah Data</div>
+                <div class="right">
+                    <a href="#" class="link back" style="color: white;">
+                        <i class="icon f7-icons">xmark</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div style="background: url('img/above.png'); margin-top: 54px; height: 3798px;"></div>
+        <div class="page-content" style="margin-top: -3850px;" id="blokdatamahasiswa">
+            <div class="card card-outline radius10" style="margin-left: 10px; margin-right: 10px; margin-bottom: 10px;">
+                <div class="card-content card-content-padding">
+                    <div class="row">
+                        <div class="col-100">
+                            <font style="font-size: 20px"><b>Form Mahasiswa</b></font><br/>
+                            <div class="list">
+                                <div class="item-content item-input">
+                                    <div class="col-15">
+                                        <div class="item-media">
+                                            <i class="icon f7-icons">qrcode</i>
+                                        </div>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">NIM*</div>
+                                        <div class="item-input-wrap"><input type="number" id="txtnim" placeholder="ex: 4120055"/></div>
+                                    </div>
+                                </div>
+                                <div class="item-content item-input">
+                                    <div class="col-15">
+                                        <div class="item-media">
+                                            <i class="icon f7-icons">person_crop_circle_fill</i>
+                                        </div>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">Nama*</div>
+                                        <div class="item-input-wrap"><input type="text" id="txtnama" placeholder="ex: Budi Raharjo"/></div>
+                                    </div>
+                                </div>
+                                <div class="item-content item-input">
+                                    <div class="col-15">
+                                        <div class="item-media"><i class="icon f7-icons">doc_person</i></div>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">Jenis Kelamin*</div>
+                                        <div class="item-input-wrap"><input type="text" id="txtjk" placeholder="ex: Laki-Laki" readonly/></div>
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="item-inner">
+                                            <div class="item-title item-label"></div>
+                                            <div class="item-input-wrap">
+                                                <button type="button" class="button button-fill color-blue sheet-open" data-sheet="#sheet-jk">
+                                                    <i class="icon f7-icons">search</i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-content item-input">
+                                    <div class="col-15">
+                                        <div class="item-media"><i class="icon f7-icons">at</i></div>
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">Email*</div>
+                                        <div class="item-input-wrap"><input type="text" id="txtemail" placeholder="abc@gmail.com"/></div>
+                                    </div>
+                                </div>
+                                <div class="item-content item-input row">
+                                    <button type="button" class="col button button-fill color-green" @click="${() => tambah_mahasiswa()}">Simpan</button>
+                                    <button type="button" class="col button button-fill color-red" @click="${() => kosong_mahasiswa()}">Batal</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sheet-modal demo-sheet-swipe-to-close" style="height: auto;" id="sheet-jk">
+            <div class="sheet-modal-inner">
+                <div class="swipe-handler"></div>
+                <div class="page-content">
+                    <div class="block-title block-title-large">Jenis Kelamin</div>
+                    <div class="list">
+                        <ul>
+                            <li>
+                                <a href="#" class="item-link item-content sheet-close" @click="${() => setnilai('#txtjk', 'Laki-Laki')}">
+                                    <div class="item-inner"><div class="item-title">Laki-Laki</div></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="item-link item-content sheet-close" @click="${() => setnilai('#txtjk', 'Perempuan')}">
+                                    <div class="item-inner"><div class="item-title">Perempuan</div></div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default (props, ctx) => {
+        return $render;
+    }
+</script>

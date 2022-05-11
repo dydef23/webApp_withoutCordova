@@ -1,0 +1,32 @@
+<template>
+    <div class="page page-home">
+        <div class="navbar no-shadow" style="color: white; height: 55px;">
+            <div class="navbar-bg" style="background: url('img/header.png') fixed;"></div>
+            <div class="navbar-inner">
+                <div class="title sliding">Data Mahasiswa</div>
+                <div class="right">
+                    <a href="/addlokal/" class="link" style="color: white;">
+                        <i class="icon f7-icons">person_crop_circle_badge_plus</i>
+                    </a>
+                    <a href="#" class="link back" style="color: white;">
+                        <i class="icon f7-icons">xmark</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div style="background: url('img/above.png'); margin-top: 54px; height: 3798px;"></div>
+        <div class="page-content" style="margin-top: -3850px;" id="blokdatamahasiswa">
+            
+        </div>
+    </div>
+</template>
+
+<script>
+    export default (props, ctx) => {
+        var $on = ctx.$on;
+        $on('pageAfterIn', () => {
+            ambildatamahasiswa();
+        })
+        return $render;
+    }
+</script>

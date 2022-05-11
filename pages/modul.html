@@ -1,0 +1,35 @@
+<template>
+    <div class="page page-home">
+        <div class="navbar no-shadow" style="color: white; height: 55px;">
+            <div class="navbar-bg" style="background: url('img/header.png') fixed;"></div>
+            <div class="navbar-inner">
+                <div class="title sliding">Detail Modul</div>
+                <div class="right">
+                    <a href="#" class="link back" style="color: white;">
+                        <i class="icon f7-icons">xmark</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div style="background: url('img/above.png'); margin-top: 54px; height: 3798px;"></div>
+        <div class="page-content" style="margin-top: -3850px;">
+            <div class="row" style="margin-left: 10px; margin-right: 10px;">
+                <div class="col" style="text-align: center;">
+                    <div class="row" style="margin-bottom: 10px;" id="blokdatamodul">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default (props, ctx) => {
+        var $on = ctx.$on;
+        $on('pageInit', () => {
+            ambildatamodul();
+        })
+        return $render;
+    }
+</script>

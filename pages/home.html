@@ -1,0 +1,68 @@
+<template>
+    <div class="page page-home">
+        <div class="navbar no-shadow" style="color: white; height: 55px;">
+            <div class="navbar-bg" style="background: url('img/header.png') fixed;"></div>
+            <div class="navbar-inner">
+                <div class="title sliding">Praktikum 7</div>
+                <div class="right">
+                    <a href="#" class="link" style="color: white" @click="${() => senterku()}">
+                        <i class="icon f7-icons">lightbulb</i>
+                    </a>
+                    <a href="#" class="link popover-open" data-popover="#popover-info" style="color: white;">
+                        <i class="icon f7-icons">ellipsis_vertical</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div style="background: url('img/above.png'); margin-top: 54px; height: 3798px;"></div>
+
+        <div class="page-content" style="margin-top: -3830px;">
+            <div class="row" style="margin-left: 3%; margin-right: 3%;">
+                <div class="col" style="text-align: center;">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <a href="/film/" class="col text-align-center">
+                            <img src="img/daftar.jpg" class="besar-icon radius10" alt=""/>
+                        </a>
+                        <a href="/mod/" class="col text-align-center">
+                            <img src="img/belajar.jpg" class="besar-icon radius10"/>
+                        </a>
+                        <a href="javascript:void(0)" class="col text-align-center" @click="${() => scannerku()}">
+                            <img src="img/satu.jpg" class="besar-icon radius10" alt=""/>
+                        </a>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <a href="javascript:void(0)" class="col text-align-center" @click="${() => loginku()}">
+                            <img src="img/dua.jpg" class="besar-icon radius10" alt=""/>
+                        </a>
+                        <a href="/dlokal/" class="col text-align-center">
+                            <img src="img/data.jpg" class="besar-icon radius10" alt=""/>
+                        </a>
+                        <a href="#" class="col text-align-center">
+                            <img src="img/exit.jpg" class="besar-icon radius10" alt=""/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="popover" id="popover-info">
+                <div class="popover-angle"></div>
+                <div class="popover-inner">
+                    <div class="list">
+                        <ul>
+                            <li>
+                                <a href="/tentang" class="list-button popover-close font-hitam">Tentang Aplikasi</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default function (props, ctx) {
+    return $render;
+    }
+</script>
